@@ -23,7 +23,7 @@ public class SearchPage {
     private WebElement headerOfSearch;
     @FindBy(css = "div.sr-usp-overlay__loading")
     private WebElement loadingLabel;
-    @FindBy(css = "a.hotel_name_link")
+    @FindBy(css = "a.hotel_name_link span.sr-hotel__name")
     private List<WebElement> hotelsList;
     private String hotelName;
 
@@ -36,7 +36,7 @@ public class SearchPage {
     public void filterByAvailableHotel() {
         if (!hotelCheckbox.isSelected()) hotelCheckbox.click();
         if (!availablePropertiesCheckbox.isSelected()) availablePropertiesCheckbox.click();
-        //some times notification doesn't appears
+        //sometimes notification doesn't appears
         String notificationText = "Filters have been applied";
         wait.until(ExpectedConditions.textToBePresentInElement(fillterNotification, notificationText));
 
@@ -52,7 +52,7 @@ public class SearchPage {
     }
 
     public String getHotelName() {
-        return hotelName.substring(0, hotelName.indexOf("\n"));
+        return hotelName;
     }
 
     public HotelPage selectOneOfTopThree() {

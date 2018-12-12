@@ -18,13 +18,14 @@ public class HotelPage {
     private WebElement reserveButton;
     @FindBy(css = "span.hprt-price-price-standard,span.hprt-price-price-actual")
     private List<WebElement> pricesFromTable;
-    //    @FindBy(css = "div.hprt-booking-summary-rooms-and-price ")
     @FindBy(css = "div.hprt-reservation-total-price")
     private WebElement totalPrice;
     @FindBy(css = "div.hprt-reservation-cta button[type='Submit']")
     private WebElement finalReserveButton;
     @FindBy(css = "h2.hp__hotel-name")
     private WebElement hotelNameHeader;
+    @FindBy(css = "span.hp__hotel-type-badge")
+    private WebElement hotelTypeBadge;
 
 
     public HotelPage(WebDriver driver) {
@@ -47,6 +48,19 @@ public class HotelPage {
         if (!isPresentElement(totalPrice)) cheapestRoomSelect.sendKeys(Keys.ARROW_DOWN);
     }
 
+    private boolean isPresentElement(WebElement element) {
+        boolean exist;
+        try {
+            driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+            exist = element.isDisplayed();
+        } catch (NoSuchElementException e) {
+            exist = false;
+        } finally {
+            driver.manage().timeouts().implicitlyWait(ChromeConfigs.getDefaultImplicitlyWaitTime(), TimeUnit.SECONDS);
+        }
+        return exist;
+    }
+
     public DetailsPage reserveRoom() {
         finalReserveButton.click();
         return new DetailsPage(driver);
@@ -63,19 +77,12 @@ public class HotelPage {
     }
 
     public String getHotelName() {
-        return hotelNameHeader.getText().toLowerCase().trim();
+        String hotelname;
+        if (isPresentElement(hotelTypeBadge)) {
+            int badgeLength = hotelTypeBadge.getText().length();
+            hotelname = hotelNameHeader.getText().substring(badgeLength + 1).toLowerCase().trim();
+        } else hotelname = hotelNameHeader.getText().toLowerCase().trim();
+        return hotelname;
     }
 
-    private boolean isPresentElement(WebElement element) {
-        boolean exist;
-        try {
-            driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-            exist = element.isDisplayed();
-        } catch (NoSuchElementException e) {
-            exist = false;
-        } finally {
-            driver.manage().timeouts().implicitlyWait(ChromeConfigs.getDefaultImplicitlyWaitTime(), TimeUnit.SECONDS);
-        }
-        return exist;
-    }
 }
