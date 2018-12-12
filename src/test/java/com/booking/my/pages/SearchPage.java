@@ -55,7 +55,7 @@ public class SearchPage {
         return hotelName;
     }
 
-    public HotelPage selectOneOfTopThree() {
+    public HotelPage selectOneOfTopThreeHotels() {
         int randomNumberHotelOfTopThree = (int) (Math.random() * 3);
         WebElement currentHotel = wait.until(ExpectedConditions.elementToBeClickable(hotelsList.get(randomNumberHotelOfTopThree)));
         hotelName = currentHotel.getText().toLowerCase().trim();

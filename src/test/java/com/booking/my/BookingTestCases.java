@@ -30,11 +30,11 @@ public class BookingTestCases {
     public void reserveRoomInLAHotel() {
         driver.get("https://booking.com");
         homePage = new HomePage(driver);
-        searchPage = homePage.fillingSearchField("Los Angeles");
+        searchPage = homePage.fillSearchFieldsAndSubmit("Los Angeles");
         Assert.assertTrue(searchPage.getSearchHeader().contains("los angeles"));
         searchPage.filterByAvailableHotel();
-        hotelPage = searchPage.selectOneOfTopThree();
-        Assert.assertEquals(searchPage.getHotelName(),hotelPage.getHotelName(), "Wrong selected hotel");
+        hotelPage = searchPage.selectOneOfTopThreeHotels();
+        Assert.assertEquals(searchPage.getHotelName(), hotelPage.getHotelName(), "Wrong selected hotel");
         hotelPage.goToPrice();
         hotelPage.selectCheapestRoom();
         Assert.assertEquals(hotelPage.getCheapestPrice(), hotelPage.getTotalPrice(), "The prices are different");

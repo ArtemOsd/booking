@@ -22,7 +22,7 @@ public class HomePage {
         PageFactory.initElements(driver, this);
     }
 
-    public SearchPage fillingSearchField(String text) {
+    public SearchPage fillSearchFieldsAndSubmit(String text) {
         searchTextBox.sendKeys(text);
         checkinDateButton.click();
         dateInCalendar.click();
